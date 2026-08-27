@@ -1,0 +1,30 @@
+name: Feature request
+description: Propose a focused diagnostic, integration, or usability improvement
+title: "feature: "
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Maintainer problem
+      description: What real repository-instruction problem should this solve?
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence and examples
+      description: Provide a small public or synthetic example without sensitive data.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed behavior
+  - type: checkboxes
+    id: safety
+    attributes:
+      label: Safety properties
+      options:
+        - label: The proposal can remain offline and read-only by default.
+          required: true

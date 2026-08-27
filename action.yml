@@ -1,0 +1,37 @@
+name: AgentGuide Lint
+description: Check effective AGENTS.md instruction chains without executing repository code
+author: En Zhang
+branding:
+  icon: shield
+  color: blue
+inputs:
+  path:
+    description: Working directory whose effective instruction chain should be checked
+    required: false
+    default: .
+  format:
+    description: Output format (text, json, or sarif)
+    required: false
+    default: text
+  max_bytes:
+    description: Maximum combined instruction bytes
+    required: false
+    default: "32768"
+runs:
+  using: composite
+  steps:
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: "22.18.0"
+    - name: Check repository instructions
+      shell: bash
+      env:
+        AGENTGUIDE_INPUT_PATH: ${{ inputs.path }}
+        AGENTGUIDE_INPUT_FORMAT: ${{ inputs.format }}
+        AGENTGUIDE_INPUT_MAX_BYTES: ${{ inputs.max_bytes }}
+      run: >-
+        node "$GITHUB_ACTION_PATH/dist/cli.js"
+        check --cwd "$AGENTGUIDE_INPUT_PATH"
+        --format "$AGENTGUIDE_INPUT_FORMAT"
+        --max-bytes "$AGENTGUIDE_INPUT_MAX_BYTES"

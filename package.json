@@ -1,0 +1,46 @@
+{
+  "name": "agentguide-lint",
+  "version": "0.1.0",
+  "description": "Offline linter for effective AGENTS.md instruction chains",
+  "type": "module",
+  "bin": {
+    "agentguide": "./dist/cli.js",
+    "agentguide-lint": "./dist/cli.js"
+  },
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "test": "node --test test/*.test.ts",
+    "test:dist": "node dist/cli.js check .",
+    "check:self": "node src/cli.ts check .",
+    "prepack": "node scripts/build.mjs"
+  },
+  "engines": {
+    "node": ">=22.18"
+  },
+  "author": "En Zhang",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mark-zhang-en/agentguide-lint.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Mark-zhang-en/agentguide-lint/issues"
+  },
+  "homepage": "https://github.com/Mark-zhang-en/agentguide-lint#readme",
+  "keywords": [
+    "agents-md",
+    "codex",
+    "linter",
+    "maintainer",
+    "sarif"
+  ],
+  "files": [
+    "dist",
+    "action.yml",
+    "README.md",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
+}

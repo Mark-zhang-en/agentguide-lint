@@ -1,0 +1,36 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    strategy:
+      matrix:
+        node: [22.18.0, 24]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+      - name: Run tests
+        run: npm test
+      - name: Build distributable CLI
+        run: npm run build
+      - name: Verify committed distribution
+        run: test -z "$(git status --porcelain -- dist)"
+      - name: Smoke-test distributable CLI
+        run: npm run test:dist
+      - name: Check this repository
+        run: npm run check:self
+      - name: Verify machine-readable output
+        run: |
+          node src/cli.ts check . --format json > /tmp/agentguide.json
+          node -e "JSON.parse(require('fs').readFileSync('/tmp/agentguide.json', 'utf8'))"
+          node src/cli.ts check . --format sarif > /tmp/agentguide.sarif
+          node -e "JSON.parse(require('fs').readFileSync('/tmp/agentguide.sarif', 'utf8'))"
